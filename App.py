@@ -1,7 +1,11 @@
+from helpers import Database
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import psycopg
+
+# DataBase
+db = Database()
 
 # Title
 st.title('점심기록장')
@@ -42,7 +46,8 @@ def create_lunch_menu_data():
 # Logic
 if is_tapped_save_button:
     if menu_name and member_name and dt:
-        create_lunch_menu_data()
+        db.insert_data(menu_name, member_name, dt)
+#        create_lunch_menu_data()
         st.success('저장 완료!')
     else:
         st.warning('모든 값을 입력해주세요.')
