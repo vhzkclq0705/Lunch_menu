@@ -22,6 +22,9 @@ class Database:
         self.conn.commit()
 
     def insert_data(self, menu_name, member_name, dt):
+        menu_name = menu_name.upper()
+        member_name = member_name.upper()
+
         query = '''
         INSERT INTO lunch_menu (menu_name, member_name, dt)
         VALUES (%s, %s, %s)
