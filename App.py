@@ -1,10 +1,10 @@
-from helpers import Database, Statistic, CSV_manager
+from helpers import *
 import matplotlib.pyplot as plt
 import streamlit as st
 
-# Class from helper.py
+# Class from helper files
 db = Database()
-statistic = Statistic(db.select_data())
+statistic = Statistic_manager(db.select_data())
 csv_manager = CSV_manager(db)
 
 # Title
