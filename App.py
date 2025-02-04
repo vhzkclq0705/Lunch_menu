@@ -19,4 +19,5 @@ gdf = not_na_df.groupby('ename')['menu'].count().reset_index()
 # Matplotlib로 Bar Chart 그리기
 fig, ax = plt.subplots()
 gdf.plot(x='ename', y='menu', kind='bar', ax=ax)
+ax.set_xticklabels(gdf['ename'], rotation=45)
 st.pyplot(fig)
