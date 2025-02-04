@@ -32,7 +32,6 @@ if is_tapped_save_button:
             st.success('저장 완료!')
         except Exception as e:
             st.error(error_message)
-            st.markdown(""" """)
             st.error(f'error message: {str(e)}')
     else:
         st.warning('모든 값을 입력해주세요.')
@@ -62,7 +61,6 @@ if is_tapped_insert_button:
         st.success('모든 데이터를 성공적으로 삽입했습니다!')
     except Exception as e:
         st.error(error_message)
-        st.markdown(""" """)
         st.error(f'error message: {str(e)}')
 
 # Disconnect
