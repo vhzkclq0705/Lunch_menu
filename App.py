@@ -1,11 +1,11 @@
-from helpers import Database
-import streamlit as st
-import pandas as pd
+from helpers import Database, Statistic, CSV_manager
 import matplotlib.pyplot as plt
-import psycopg
+import streamlit as st
 
-# DataBase
+# Class from helper.py
 db = Database()
+statistic = Statistic(db.select_data())
+csv_manager = CSV_manager(db)
 
 # Title
 st.title('점심기록장')
@@ -22,49 +22,36 @@ member_name = st.text_input('작성자', placeholder='ex) Jerry', value='Jerry')
 dt = st.date_input('날짜')
 is_tapped_save_button = st.button('저장')
 
-# DataBase
-def create_lunch_menu_data():
-    DB_CONFIG = {
-        "dbname": "sunsindb",
-        "user": "sunsin",
-        "password": "mysecretpassword",
-        "host": "localhost",
-        "port": "5432"
-    }
-
-    conn = psycopg.connect(**DB_CONFIG)
-    cursor = conn.cursor()
-
-    cursor.execute(
-        "INSERT INTO lunch_menu(menu_name, member_name, dt) VALUES (%s, %s, %s);",
-        (menu_name, member_name, dt)
-    )
-
-    conn.commit()
-    cursor.close()
-
-# Logic
+# Logic - Save button
 if is_tapped_save_button:
     if menu_name and member_name and dt:
         db.insert_data(menu_name, member_name, dt)
-#        create_lunch_menu_data()
         st.success('저장 완료!')
     else:
         st.warning('모든 값을 입력해주세요.')
 
-# Statistic
-st.subheader('통계')
+# Select data
+initial_df = statistic.get_initial_df()
 
-df = pd.read_csv('./note/lunch_menu.csv')
+st.write('## 확인')
+st.table(initial_df)
 
-start_idx = df.columns.get_loc('2025-01-07')
-melted_df = df.melt(id_vars=['ename'], value_vars=df.columns[start_idx:-2], var_name='dt', value_name='menu')
-
-not_na_df = melted_df[~melted_df['menu'].isin(['-', 'x', '<결석>'])]
-gdf = not_na_df.groupby('ename')['menu'].count().reset_index()
-
-# Matplotlib로 Bar Chart 그리기
+# Statistic data
+grouped_df = statistic.get_grouped_df()
 fig, ax = plt.subplots()
-gdf.plot(x='ename', y='menu', kind='bar', ax=ax)
-ax.set_xticklabels(gdf['ename'], rotation=45)
+grouped_df.plot(x='member_name', y='menu', kind='bar', ax=ax)
+ax.set_xticklabels(grouped_df['member_name'], rotation=45)
+
+st.write('## 통계')
 st.pyplot(fig)
+
+# Insert all data from .csv
+st.write('## Bulk Insert')
+is_tapped_insert_button = st.button('Insert!')
+
+if is_tapped_insert_button:
+   csv_manager.insert_data()
+   st.success('성공!')
+
+# Disconnect
+db.close_connection()
