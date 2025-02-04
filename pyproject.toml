@@ -5,7 +5,7 @@ description = "Lunch menus of Our team"
 authors = [
     {name = "vhzkclq0705", email = "vhzkclq0705@naver.com"},
 ]
-dependencies = ["pandas>=2.2.3"]
+dependencies = ["pandas>=2.2.3", "streamlit>=1.41.1", "matplotlib>=3.10.0", "psycopg[binary,pool]>=3.2.4"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
