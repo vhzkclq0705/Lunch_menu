@@ -50,7 +50,7 @@ class Database:
         ORDER BY member_name DESC
         '''
         self.cursor.execute(query)
-        member_list = tuple([row[0] for row in cursor.fetchall()])
+        member_list = tuple([row[0] for row in self.cursor.fetchall()])
         
         return member_list
 
