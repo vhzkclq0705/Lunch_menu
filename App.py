@@ -12,6 +12,7 @@ error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가
 
 # Title
 st.title('점심기록장')
+st.sidebar.markdown('Main')
 
 # Image
 st.write("""
