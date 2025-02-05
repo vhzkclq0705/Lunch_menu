@@ -15,6 +15,7 @@ error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가
 st.markdown('# Bulk Insert')
 st.sidebar.markdown('# Bulk Insert')
 
+st.warning('데이터가 초기화 됐을 시에 클릭하세요.')
 is_tapped_insert_button = st.button('Bulk Insert!')
 
 # ----------Logic----------
