@@ -44,12 +44,16 @@ st.table(initial_df)
 
 # Statistic data
 grouped_df = statistic.get_grouped_df()
-fig, ax = plt.subplots()
-grouped_df.plot(x='member_name', y='menu', kind='bar', ax=ax)
-ax.set_xticklabels(grouped_df['member_name'], rotation=45)
 
 st.write('## 통계')
-st.pyplot(fig)
+if not grouped_df.empty:
+    fig, ax = plt.subplots()
+    grouped_df.plot(x='member_name', y='menu', kind='bar', ax=ax)
+    ax.set_xticklabels(grouped_df['member_name'], rotation=45)
+    st.pyplot(fig)
+else:
+    st.warning('데이터가 존재하지 않아 통계를 확인할 수 없습니다.')
+
 
 # Insert all data from .csv
 st.write('## Bulk Insert')
