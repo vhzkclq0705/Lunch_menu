@@ -2,13 +2,19 @@ from helpers import *
 import matplotlib.pyplot as plt
 import streamlit as st
 
+# ----------Helper Class----------
+
 db = Database()
 statistic = Statistic_manager(db.select_data())
+
+# ----------UI----------
 
 st.markdown('# Statistic')
 st.sidebar.markdown('# Statistic')
 
-groupded_df = statistic.get_grouped_df()
+# ----------Logic----------
+
+grouped_df = statistic.get_grouped_df()
 if not grouped_df.empty:
     fig, ax = plt.subplots()
     grouped_df.plot(x='member_name', y='menu', kind='bar', ax=ax)
