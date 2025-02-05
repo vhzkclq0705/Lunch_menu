@@ -3,16 +3,16 @@
 - [x] 팀원들의 점심 메뉴 수집
 - [x] 분석
 - [ ] 알람(입력하지 않은 사람들에게)
-- [ ] CSV to DB
+- [x] CSV to DB
 
 ## READY
 
 ### Install DB with Docker
 ```bash
 $ sudo docker run --name local-postgres \
-> -e POSTGRES_USER=sunsin \
-> -e POSTGRES_PASSWORD=mysecretpassword \
-> -e POSTGRES_DB=sunsindb \
+> -e POSTGRES_USER=<USER_NAME> \
+> -e POSTGRES_PASSWORD=<PASSWORD> \
+> -e POSTGRES_DB=<DB-NAME> \
 > -p 5432:5432 \
 > -d postgres:15.10
 ```
