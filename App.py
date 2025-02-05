@@ -26,7 +26,7 @@ member_name = st.selectbox(
     "작성자 선택",
     db.get_member_list(),
     index=None,
-    placeholer="먹은 사람을 선택"
+    placeholder="먹은 사람을 선택"
 )
 st.write('작성자', member_name)
 
