@@ -9,20 +9,22 @@ class Database:
 
     def execute_query(self, query, params=None):
         if params:
-            self.cursor.execute(query, params)
+            self.cursor.executemany(query, params)
         else:
             self.cursor.execute(query)
         self.conn.commit()
 
-    def insert_data(self, menu_name, member_name, dt):
-        menu_name = menu_name.upper()
-        member_name = member_name.upper()
+    def insert_data(self, data):
+        if isinstance(data, tuple):
+            data = [data]
+
+        data = [(menu_name.upper(), member_name.upper(), dt) for (menu_name, member_name, dt) in data]
 
         query = '''
         INSERT INTO lunch_menu (menu_name, member_name, dt)
         VALUES (%s, %s, %s)
         '''
-        self.execute_query(query, (menu_name, member_name, dt))
+        self.execute_query(query, data)
 
     def select_data(self) -> list:
         query = '''

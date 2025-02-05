@@ -14,8 +14,14 @@ class CSV_manager:
     def extract_data(self) -> list:
         start_idx = self.df.columns.get_loc('2025-01-07')
         extracted_data = (
-            self.df.melt(id_vars=['ename'], value_vars=self.df.columns[start_idx:-2], var_name='date', value_name='menu')
+            self.df.melt(
+                id_vars=['ename'],
+                value_vars=self.df.columns[start_idx:-2],
+                var_name='date',
+                value_name='menu'
+            )
             .query("menu != '-'")
+            .reindex(columns=['menu', 'ename', 'date'])
             .to_records(index=False)
         )
 
@@ -23,5 +29,4 @@ class CSV_manager:
 
     def insert_data(self):
         data = self.extract_data()
-        for (member_name, date, menu) in data:
-            self.db.insert_data(menu, member_name, date)
+        self.db.insert_data(data)
