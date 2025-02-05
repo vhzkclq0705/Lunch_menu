@@ -22,3 +22,5 @@ if not grouped_df.empty:
     st.pyplot(fig)
 else:
     st.warning('데이터가 존재하지 않아 통계를 확인할 수 없습니다.')
+
+db.close_connection()

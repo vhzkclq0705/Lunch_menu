@@ -7,6 +7,7 @@ db = Database()
 
 # ----------Properties----------
 
+member_list = db.get_member_list()
 error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가 발생했습니다."
 
 # ----------UI----------
@@ -24,7 +25,7 @@ st.write("""
 menu_name = st.text_input('메뉴 이름', placeholder='ex) 설렁탕')
 member_name = st.selectbox(
     "작성자 선택",
-    db.get_member_list(),
+    member_list,
     placeholder="먹은 사람을 선택"
 )
 dt = st.date_input('날짜')
