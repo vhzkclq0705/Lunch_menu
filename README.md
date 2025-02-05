@@ -3,8 +3,11 @@
 - [x] 팀원들의 점심 메뉴 수집
 - [x] 분석
 - [ ] 알람(입력하지 않은 사람들에게)
+- [ ] CSV to DB
 
-## Install DB with Docker
+## READY
+
+### Install DB with Docker
 ```bash
 $ sudo docker run --name local-postgres \
 > -e POSTGRES_USER=sunsin \
@@ -14,11 +17,11 @@ $ sudo docker run --name local-postgres \
 > -d postgres:15.10
 ```
 
-## CREATE Table
+### CREATE Table
 - postgres
 
 ```sql
-CREATE TABLE lunch_menu (
+CREATE TABLE public.lunch_menu (
 	id serial4 NOT NULL,
 	menu_name text NOT NULL,
 	dt date NOT NULL,
@@ -26,4 +29,16 @@ CREATE TABLE lunch_menu (
 	CONSTRAINT lunch_menu_pk PRIMARY KEY (id),
 	CONSTRAINT lunch_menu_unique UNIQUE (menu_name, member_name, dt)
 );
+```
+
+## DEV
+```bash
+# DB Check, Start, Stop
+$ sudo docker ps -a
+$ sudo docker start local-postgres
+$ sudo docker stop local-postgres
+
+# Into Container
+$ sudo docker exec -it local-postgres bash
+root@a6999187bcc5:/#
 ```
