@@ -20,7 +20,16 @@ st.write("""
 
 # Input
 menu_name = st.text_input('메뉴 이름', placeholder='ex) 설렁탕')
-member_name = st.text_input('작성자', placeholder='ex) Jerry', value='Jerry')
+# member_name = st.text_input('작성자', placeholder='ex) Jerry', value='Jerry')
+
+member_name = st.selectbox(
+    "작성자 선택",
+    db.get_member_list(),
+    index=None,
+    placeholer="먹은 사람을 선택"
+)
+st.write('작성자', member_name)
+
 dt = st.date_input('날짜')
 is_tapped_save_button = st.button('저장')
 

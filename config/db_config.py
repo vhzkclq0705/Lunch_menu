@@ -2,9 +2,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
- 
+
+db_name = os.getenv('DB_NAME')
+
 db_config = {
-    "dbname": os.getenv('DB_NAME'),
+    "dbname": db_name,
     "user": os.getenv('DB_USERNAME'),
     "password": os.getenv('DB_PASSWORD'),
     "host": os.getenv('DB_HOST'),
