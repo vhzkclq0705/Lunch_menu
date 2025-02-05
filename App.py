@@ -28,7 +28,7 @@ is_tapped_save_button = st.button('저장')
 if is_tapped_save_button:
     if menu_name and member_name and dt:
         try:
-            db.insert_data(menu_name, member_name, dt)
+            db.insert_data((menu_name, member_name, dt))
             st.success('저장 완료!')
         except Exception as e:
             st.error(error_message)
