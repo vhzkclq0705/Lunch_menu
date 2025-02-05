@@ -32,13 +32,21 @@ CREATE TABLE public.lunch_menu (
 ```
 
 ## DEV
+- DB
 ```bash
-# DB Check, Start, Stop
 $ sudo docker ps -a
 $ sudo docker start local-postgres
 $ sudo docker stop local-postgres
 
 # Into Container
 $ sudo docker exec -it local-postgres bash
-root@a6999187bcc5:/#
+```
+
+- RUN
+```bash
+# DB 정보에 맞춰 수정
+$ cp env.dummy .env
+
+# 서버 시작
+$ streamlit run App.py
 ```
