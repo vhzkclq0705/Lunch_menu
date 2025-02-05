@@ -43,18 +43,17 @@ class Database:
     def update_data(self):
         query = f'UPDATE INTO lunch_menu'
 
-    def get_member_list(self) -> tuple:
+    def get_member_list(self):
         query = '''
         SELECT DISTINCT member_name
         FROM lunch_menu
         ORDER BY member_name DESC
         '''
-        self.cursor.execute(query)
+        self.execute_query(query)
         member_list = tuple([row[0] for row in self.cursor.fetchall()])
-        
+
         return member_list
 
     def close_connection(self):
         self.cursor.close()
         self.conn.close()
-
