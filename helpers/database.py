@@ -28,9 +28,12 @@ class Database:
 
     def select_data(self) -> list:
         query = '''
-        SELECT menu_name, member_id, dt
-        FROM lunch_menu
-        ORDER BY dt DESC
+        SELECT
+            l.menu_name AS menu,
+            m.name AS ename,
+            l.dt
+        FROM lunch_menu l
+        JOIN member m ON l.member_id = m.id
         '''
         self.execute_query(query)
         return self.cursor.fetchall()
