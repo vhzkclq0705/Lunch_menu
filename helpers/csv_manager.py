@@ -11,8 +11,7 @@ class CSV_manager:
 
         self.df = pd.read_csv(csv_file_path)
 
-    def extract_data(self) -> list:
-        member_dict = self.db.get_member_dict()
+    def extract_data(self) -> pd.DataFrame:
         start_idx = self.df.columns.get_loc('2025-01-07')
 
         extracted_data = (
@@ -26,10 +25,10 @@ class CSV_manager:
             .reindex(columns=['menu', 'ename', 'date'])
         )
 
-        extracted_data['member_id'] = extracted_data['ename'].str.upper().map(member_dict)
-
-        return list(extracted_data[['menu', 'member_id', 'date']].itertuples(index=False, name=None))
+        return extracted_data
 
     def insert_data(self):
         data = self.extract_data()
-        self.db.insert_data(data)
+        total_cnt, true_cnt, false_cnt = self.db.bulk_insert_homework(data)
+
+        return (total_cnt, true_cnt, false_cnt)

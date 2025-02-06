@@ -21,11 +21,11 @@ is_tapped_insert_button = st.button('Bulk Insert!')
 # ----------Logic----------
 
 if is_tapped_insert_button:
-    try:
-        csv_manager.insert_data()
-        st.success('모든 데이터를 성공적으로 삽입했습니다!')
-    except Exception as e:
-        st.error(error_message)
-        st.error(f'error message: {str(e)}')
+    total_cnt, true_cnt, false_cnt = csv_manager.insert_data()
+
+    if total_cnt == true_cnt:
+        st.success(f'모든 데이터를 성공적으로 삽입했습니다! -> 총 {total_cnt}건')
+    else:
+        st.error(f'총 {total_cnt}건 중 {false_cnt}건 삽입에 실패했습니다.')
 
 db.close_connection()

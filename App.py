@@ -8,6 +8,7 @@ db = Database()
 # ----------Properties----------
 
 member_dict = db.get_member_dict()
+member_need_enter = db.get_member_need_enter()
 error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가 발생했습니다."
 
 # ----------UI----------
@@ -35,6 +36,9 @@ dt = st.date_input('날짜')
 
 is_tapped_save_button = st.button('저장')
 
+st.markdown('## 입력 안 한 사람 확인')
+is_tapped_check_button = st.button('확인')
+
 # ----------Logic----------
 
 # Save Button
@@ -48,5 +52,13 @@ if is_tapped_save_button:
             st.error(f'error message: {str(e)}')
     else:
         st.warning('모든 값을 입력해주세요.')
+
+# Check Button
+if is_tapped_check_button:
+    print(member_need_enter)
+    if member_need_enter:
+        st.warning(member_need_enter)
+    else:
+        st.success('모두 금일 점심을 입력하였습니다!')
 
 db.close_connection()
