@@ -29,12 +29,14 @@ class Database:
 
     def get_member_need_enter(self) -> list:
         query = '''
-        select distinct
+        select
             m.name
         from
             member m
-        inner join lunch_menu l
-            on m.id = l.member_id 
+        left join lunch_menu l
+            on m.id = l.member_id and l.dt = current_date
+        where
+            l.member_id is null
         '''
         self.execute_query(query)
 
