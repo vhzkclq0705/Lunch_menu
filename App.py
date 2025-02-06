@@ -27,8 +27,7 @@ menu_name = st.text_input('메뉴 이름', placeholder='ex) 설렁탕')
 member_name = st.selectbox(
     "작성자 선택",
     list(member_dict.keys()),
-    placeholder="먹은 사람 선택",
-    index=member_dict['JERRY']
+    index=member_dict['JERRY']%len(member_dict)
 )
 member_id = member_dict[member_name]
 

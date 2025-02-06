@@ -29,9 +29,9 @@ class Database:
     def select_data(self) -> list:
         query = '''
         SELECT
-            l.menu_name AS menu,
-            m.name AS ename,
-            l.dt
+            menu_name,
+            name,
+            dt
         FROM lunch_menu l
         JOIN member m ON l.member_id = m.id
         '''
