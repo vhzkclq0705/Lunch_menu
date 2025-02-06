@@ -12,7 +12,9 @@ class CSV_manager:
         self.df = pd.read_csv(csv_file_path)
 
     def extract_data(self) -> list:
+        member_dict = self.db.get_member_dict()
         start_idx = self.df.columns.get_loc('2025-01-07')
+
         extracted_data = (
             self.df.melt(
                 id_vars=['ename'],
@@ -22,10 +24,11 @@ class CSV_manager:
             )
             .query("menu != '-'")
             .reindex(columns=['menu', 'ename', 'date'])
-            .to_records(index=False)
         )
 
-        return extracted_data
+        extracted_data['member_id'] = extracted_data['ename'].str.upper().map(member_dict)
+
+        return list(extracted_data[['menu', 'member_id', 'date']].itertuples(index=False, name=None))
 
     def insert_data(self):
         data = self.extract_data()

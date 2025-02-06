@@ -1,17 +1,20 @@
 from helpers import *
-import matplotlib.pyplot as plt
 import streamlit as st
 
-# Class from helper files
-db = Database()
-statistic = Statistic_manager(db.select_data())
-csv_manager = CSV_manager(db)
+# ----------Helper Class----------
 
-# Properties
+db = Database()
+
+# ----------Properties----------
+
+member_dict = db.get_member_dict()
 error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가 발생했습니다."
+
+# ----------UI----------
 
 # Title
 st.title('점심기록장')
+st.sidebar.markdown('Main Page')
 
 # Image
 st.write("""
@@ -20,15 +23,25 @@ st.write("""
 
 # Input
 menu_name = st.text_input('메뉴 이름', placeholder='ex) 설렁탕')
-member_name = st.text_input('작성자', placeholder='ex) Jerry', value='Jerry')
+
+member_name = st.selectbox(
+    "작성자 선택",
+    list(member_dict.keys()),
+    index=member_dict['JERRY']%len(member_dict)
+)
+member_id = member_dict[member_name]
+
 dt = st.date_input('날짜')
+
 is_tapped_save_button = st.button('저장')
 
-# Logic - Save button
+# ----------Logic----------
+
+# Save Button
 if is_tapped_save_button:
     if menu_name and member_name and dt:
         try:
-            db.insert_data((menu_name, member_name, dt))
+            db.insert_data((menu_name, member_id, dt))
             st.success('저장 완료!')
         except Exception as e:
             st.error(error_message)
@@ -36,36 +49,4 @@ if is_tapped_save_button:
     else:
         st.warning('모든 값을 입력해주세요.')
 
-# Select data
-initial_df = statistic.get_initial_df()
-
-st.write('## 확인')
-st.table(initial_df)
-
-# Statistic data
-grouped_df = statistic.get_grouped_df()
-
-st.write('## 통계')
-if not grouped_df.empty:
-    fig, ax = plt.subplots()
-    grouped_df.plot(x='member_name', y='menu', kind='bar', ax=ax)
-    ax.set_xticklabels(grouped_df['member_name'], rotation=45)
-    st.pyplot(fig)
-else:
-    st.warning('데이터가 존재하지 않아 통계를 확인할 수 없습니다.')
-
-
-# Insert all data from .csv
-st.write('## Bulk Insert')
-is_tapped_insert_button = st.button('Bulk Insert!')
-
-if is_tapped_insert_button:
-    try:
-        csv_manager.insert_data()
-        st.success('모든 데이터를 성공적으로 삽입했습니다!')
-    except Exception as e:
-        st.error(error_message)
-        st.error(f'error message: {str(e)}')
-
-# Disconnect
 db.close_connection()
