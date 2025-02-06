@@ -22,13 +22,25 @@ $ sudo docker run --name local-postgres \
 
 ```sql
 CREATE TABLE public.lunch_menu (
-	id serial4 NOT NULL,
-	menu_name text NOT NULL,
+	id SERIAL NOT NULL,
+	menu_name TEXT NOT NULL,
 	dt date NOT NULL,
-	member_name text NOT NULL,
+	member_id int NOT NULL,
 	CONSTRAINT lunch_menu_pk PRIMARY KEY (id),
-	CONSTRAINT lunch_menu_unique UNIQUE (menu_name, member_name, dt)
+	CONSTRAINT unique_member_dt UNIQUE (member_id, dt)
 );
+
+CREATE TABLE member(
+    id SERIAL NOT NULL,
+    name TEXT UNIQUE NOT NULL,
+    CONSTRAINT member_pk PRIMARY KEY (id)
+);
+
+ALTER TABLE lunch_menu
+    ADD CONSTRAINT menu_member_fk
+	FOREIGN KEY (member_id)
+	REFERENCES member(id)
+;
 ```
 
 ## DEV
