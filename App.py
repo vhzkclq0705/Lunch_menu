@@ -7,7 +7,7 @@ db = Database()
 
 # ----------Properties----------
 
-member_list = db.get_member_list()
+member_dict = db.get_member_dict()
 error_message = "삽입 실패! 중복된 데이터이거나 시스템 에러가 발생했습니다."
 
 # ----------UI----------
@@ -23,12 +23,17 @@ st.write("""
 
 # Input
 menu_name = st.text_input('메뉴 이름', placeholder='ex) 설렁탕')
+
 member_name = st.selectbox(
     "작성자 선택",
-    member_list,
-    placeholder="먹은 사람을 선택"
+    list(member_dict.keys()),
+    placeholder="먹은 사람 선택",
+    index=member_dict['JERRY']
 )
+member_id = member_dict[member_name]
+
 dt = st.date_input('날짜')
+
 is_tapped_save_button = st.button('저장')
 
 # ----------Logic----------
@@ -37,7 +42,7 @@ is_tapped_save_button = st.button('저장')
 if is_tapped_save_button:
     if menu_name and member_name and dt:
         try:
-            db.insert_data((menu_name, member_name, dt))
+            db.insert_data((menu_name, member_id, dt))
             st.success('저장 완료!')
         except Exception as e:
             st.error(error_message)
