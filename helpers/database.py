@@ -1,3 +1,4 @@
+from datetime import datetime
 import psycopg
 from config.db_config import db_config
 
@@ -25,6 +26,19 @@ class Database:
         VALUES (%s, %s, %s)
         '''
         self.execute_query(query, data)
+
+    def get_member_need_enter(self) -> list:
+        query = '''
+        select distinct
+            m.name
+        from
+            member m
+        inner join lunch_menu l
+            on m.id = l.member_id 
+        '''
+        self.execute_query(query)
+
+        return ', '.join([record[0] for record in self.cursor.fetchall()])
 
     def bulk_insert_homework(self, data):
         members = self.get_member_dict()
